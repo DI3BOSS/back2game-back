@@ -1,11 +1,15 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import request from "supertest";
+import { type NextFunction, type Request, type Response } from "express";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import User from "../../database/models/User.js";
 import connectToDatabase from "../../database/connectToDataBase.js";
 import { app } from "..";
+import { type errors, ValidationError } from "express-validation";
+import type CustomError from "../../CustomError/CustomError.js";
+import { generalError } from "../middlewares/errorMiddlewares.js";
 
 let mongoBbServer: MongoMemoryServer;
 
@@ -50,6 +54,51 @@ describe("Given a POST 'user/login' endpoint", () => {
       const response = await request(app).post(endpoint).send(mockedUser);
 
       expect(response.body).toHaveProperty("token");
+    });
+  });
+
+  describe("When it receives a response and an error from validation because no email was provided", () => {
+    test("Then it should call its message method with the message '\"email\" is not allowed to be empty'", () => {
+      const request: Partial<Request> = {};
+
+      const response: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const next = jest.fn() as NextFunction;
+
+      const joiError: errors = {
+        body: [
+          {
+            name: "ValidationError",
+            isJoi: true,
+            annotate() {
+              return "";
+            },
+            _original: "",
+            message: "'username' is not allowed to be empty",
+            details: [
+              {
+                message: "",
+                path: [""],
+                type: "",
+              },
+            ],
+          },
+        ],
+      };
+      const publicMessage = "'username' is not allowed to be empty";
+      const validationError = new ValidationError(joiError, {});
+
+      generalError(
+        validationError as unknown as CustomError,
+        request as Request,
+        response as Response,
+        next
+      );
+
+      expect(response.json).toHaveBeenCalledWith({ error: publicMessage });
     });
   });
 });

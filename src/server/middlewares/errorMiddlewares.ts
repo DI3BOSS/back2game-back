@@ -1,6 +1,5 @@
 import "../../loadEnvironment.js";
 import createDebug from "debug";
-import chalk from "chalk";
 import { type NextFunction, type Request, type Response } from "express";
 import CustomError from "../../CustomError/CustomError.js";
 import errors from "../constants/errors.js";
@@ -36,7 +35,7 @@ export const generalError = (
       .join(" & ");
     error.publicMessage = validationErrors;
 
-    debug(chalk.bgYellowBright(chalk.red(validationErrors)));
+    debug(validationErrors);
   }
 
   debug(error.message);
