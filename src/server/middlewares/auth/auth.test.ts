@@ -68,4 +68,17 @@ describe("Given the token auth middleware", () => {
       expect(request).toHaveProperty("postedBy", postedBy);
     });
   });
+
+  describe("When it receives a request with an undefined token'", () => {
+    test("Then it should add the userId property and the token to the request and call the next function", () => {
+      const request: Partial<Request> = {};
+
+      const postedBy = new mongoose.Types.ObjectId();
+      jwt.verify = jest.fn().mockReturnValueOnce({ sub: postedBy });
+
+      auth(request as CustomAuthRequest, response as Response, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
 });
