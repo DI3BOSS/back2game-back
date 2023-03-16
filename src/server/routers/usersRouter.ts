@@ -1,8 +1,15 @@
 import { Router } from "express";
-import { loginUser } from "../controllers/usersControllers/usersControllers.js";
+import { validate } from "express-validation";
+import { logInUser } from "../controllers/usersControllers/usersControllers.js";
+import logInUserSchema from "../schemas/logInUserSchema.js";
+import endpoints from "./endpoint.js";
 
 const usersRouter = Router();
 
-usersRouter.post("/login", loginUser);
+usersRouter.post(
+  endpoints.login,
+  validate(logInUserSchema, {}, { abortEarly: false }),
+  logInUser
+);
 
 export default usersRouter;
