@@ -27,3 +27,7 @@ export type CustomRequest = Request<
   Record<string, unknown>,
   UserCredentials
 >;
+
+export interface CustomAuthRequest extends Request {
+  postedBy: string;
+}

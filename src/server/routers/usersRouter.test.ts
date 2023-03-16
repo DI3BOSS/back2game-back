@@ -9,7 +9,7 @@ import connectToDatabase from "../../database/connectToDataBase.js";
 import { app } from "..";
 import { type errors, ValidationError } from "express-validation";
 import type CustomError from "../../CustomError/CustomError.js";
-import { generalError } from "../middlewares/errorMiddlewares.js";
+import { generalError } from "../middlewares/errorMiddlewares/errorMiddlewares.js";
 
 let mongoBbServer: MongoMemoryServer;
 
