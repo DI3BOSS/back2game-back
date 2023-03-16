@@ -50,4 +50,22 @@ describe("Given the token auth middleware", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
+
+  describe("When it receives a request with an authorization header 'Bearer Leg3NeD0FDRA60ONRokC$'", () => {
+    test("Then it should add the postedBy property and the token to the request and call the next function", () => {
+      const mockedHeaderValueWithBearer = "Bearer Leg3NeD0FDRA60ONRokC$";
+
+      const request: Partial<Request> = {};
+      request.header = jest
+        .fn()
+        .mockReturnValueOnce(mockedHeaderValueWithBearer);
+      const postedBy = new mongoose.Types.ObjectId();
+      jwt.verify = jest.fn().mockReturnValueOnce({ sub: postedBy });
+
+      auth(request as CustomAuthRequest, response as Response, next);
+
+      expect(next).toHaveBeenCalled();
+      expect(request).toHaveProperty("postedBy", postedBy);
+    });
+  });
 });
