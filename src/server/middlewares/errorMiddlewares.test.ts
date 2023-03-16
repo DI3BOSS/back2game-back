@@ -32,35 +32,40 @@ describe("Given a generalError middleware", () => {
   );
   const { statusCode } = errors.serverError;
 
-  describe("When it receives an error with status 500", () => {
-    test("Then it shoudl call its status method with a 500", () => {
-      generalError(error, request as Request, response as Response, next);
+  describe("When it receives a Not Found Error", () => {
+    test("then it should return a status code '404'", () => {
+      const notFoundError = new CustomError(
+        errors.notFound.message,
+        errors.notFound.statusCode,
+        errors.notFound.publicMessage
+      );
 
-      expect(response.status).toHaveBeenCalledWith(statusCode);
+      generalError(
+        notFoundError,
+        request as Request,
+        response as Response,
+        next
+      );
+
+      expect(response.status).toHaveBeenCalledWith(errors.notFound.statusCode);
     });
   });
 
   describe("When it receives an error not specified", () => {
     test("then it should return a status code '500' and its json method with 'Something went wrong'", () => {
-      const expectedErrorMessage = { error: errors.serverError.publicMessage };
+      const error = new Error();
+      const expectedPublicMessage = errors.serverError.publicMessage;
 
-      generalError(error, request as Request, response as Response, next);
+      generalError(
+        error as CustomError,
+        request as Request,
+        response as Response,
+        next
+      );
 
-      expect(response.status).toHaveBeenCalledWith(statusCode);
-      expect(response.json).toHaveBeenCalledWith(expectedErrorMessage);
-    });
-  });
-
-  describe("When it receives an error not specified", () => {
-    test("then it should return a status code '500' and its json method with 'Something went wrong'", () => {
-      const expectedErrorMessage = {
-        error: errors.serverError.publicMessage,
-      };
-
-      generalError(error, request as Request, response as Response, next);
-
-      expect(response.status).toHaveBeenCalledWith(statusCode);
-      expect(response.json).toHaveBeenCalledWith(expectedErrorMessage);
+      expect(response.json).toHaveBeenCalledWith({
+        error: expectedPublicMessage,
+      });
     });
   });
 });
