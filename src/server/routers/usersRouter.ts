@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validate } from "express-validation";
 import { logInUser } from "../controllers/usersControllers/usersControllers.js";
 import logInUserSchema from "../schemas/logInUserSchema.js";
-import endpoints from "./endpoint.js";
+import endpoints from "../constants/endpoint.js";
 
 const usersRouter = Router();
 

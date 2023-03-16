@@ -1,10 +1,10 @@
 import "../../loadEnvironment.js";
 import createDebug from "debug";
+import chalk from "chalk";
 import { type NextFunction, type Request, type Response } from "express";
 import CustomError from "../../CustomError/CustomError.js";
 import errors from "../constants/errors.js";
 import { ValidationError } from "express-validation";
-import chalk from "chalk";
 
 const debug = createDebug("Back2Game:Errors");
 
