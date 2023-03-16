@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { type Response, type Request, type NextFunction } from "express";
-import User from "../../database/models/User.js";
+import User from "../../../database/models/User.js";
 import { loginUser } from "./usersControllers.js";
-import { type CustomRequest } from "../../types.js";
-import CustomError from "../../CustomError/CustomError.js";
-import connectToDatabase from "../../database/connectToDataBase.js";
-import errors from "../constants/errors.js";
-import successes from "../constants/successes.js";
+import { type CustomRequest } from "../../../types.js";
+import connectToDatabase from "../../../database/connectToDataBase.js";
+import errors from "../../constants/errors.js";
+import successes from "../../constants/successes.js";
+import CustomError from "../../../CustomError/CustomError.js";
 
 let server: MongoMemoryServer;
 

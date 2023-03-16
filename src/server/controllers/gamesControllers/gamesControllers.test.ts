@@ -1,8 +1,8 @@
 import { type Response, type Request, type NextFunction } from "express";
-import CustomError from "../../CustomError/CustomError.js";
-import Game from "../../database/models/Game.js";
-import errors from "../constants/errors.js";
-import successes from "../constants/successes.js";
+import CustomError from "../../../CustomError/CustomError.js";
+import Game from "../../../database/models/Game.js";
+import errors from "../../constants/errors.js";
+import successes from "../../constants/successes.js";
 import { getGames } from "./gamesControllers.js";
 
 const mockedGames = [
