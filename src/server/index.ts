@@ -2,8 +2,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import options from "./cors.js";
-import gamesRouter from "./routers/gamesRouters.js";
-import usersRouter from "./routers/usersRouters.js";
+import gamesRouter from "./routers/gamesRouter.js";
+import usersRouter from "./routers/usersRouter.js";
 import { generalError, notFoundError } from "./middlewares/errorMiddlewares.js";
 
 const gamesEndpoint = "/games";
