@@ -3,6 +3,7 @@ import createDebug from "debug";
 import { type NextFunction, type Request, type Response } from "express";
 import CustomError from "../../CustomError/CustomError.js";
 import errors from "../constants/errors.js";
+import { ValidationError } from "express-validation";
 
 const debug = createDebug("Back2Game:Errors");
 
@@ -28,6 +29,15 @@ export const generalError = (
   res: Response,
   next: NextFunction
 ) => {
+  if (error instanceof ValidationError) {
+    const validationErrors = error.details
+      .body!.map((joiError) => joiError.message)
+      .join(" & ");
+    error.publicMessage = validationErrors;
+
+    debug(validationErrors);
+  }
+
   debug(error.message);
 
   res
