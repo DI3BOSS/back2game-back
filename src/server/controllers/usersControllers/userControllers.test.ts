@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { type Response, type Request, type NextFunction } from "express";
 import User from "../../../database/models/User.js";
-import { loginUser } from "./usersControllers.js";
+import { logInUser } from "./usersControllers.js";
 import { type CustomRequest } from "../../../types.js";
 import connectToDatabase from "../../../database/connectToDataBase.js";
 import errors from "../../constants/errors.js";
@@ -66,7 +66,7 @@ describe("Given the POST 'users/login' endpoint", () => {
         .mockResolvedValue(mockedHasedPasswordCompareResult);
       jwt.sign = jest.fn().mockReturnValue(expectedToken.token);
 
-      await loginUser(request as CustomRequest, response as Response, next);
+      await logInUser(request as CustomRequest, response as Response, next);
 
       expect(response.status).toHaveBeenCalledWith(statusCode);
       expect(response.json).toHaveBeenCalledWith(expectedToken);
@@ -102,7 +102,7 @@ describe("Given the POST 'users/login' endpoint", () => {
         .fn()
         .mockResolvedValue(mockedHasedPasswordCompareResult);
 
-      await loginUser(request as CustomRequest, response as Response, next);
+      await logInUser(request as CustomRequest, response as Response, next);
 
       expect(next).toHaveBeenCalledWith(expectedCredentialsError);
     });
@@ -136,7 +136,7 @@ describe("Given the POST 'users/login' endpoint", () => {
         .fn()
         .mockResolvedValue(mockedHasedPasswordCompareResult);
 
-      await loginUser(request as CustomRequest, response as Response, next);
+      await logInUser(request as CustomRequest, response as Response, next);
 
       expect(next).toHaveBeenCalledWith(expectedUnauthorizedError);
     });

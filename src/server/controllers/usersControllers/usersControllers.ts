@@ -8,7 +8,7 @@ import errors from "../../constants/errors.js";
 import successes from "../../constants/successes.js";
 import CustomError from "../../../CustomError/CustomError.js";
 
-export const loginUser = async (
+export const logInUser = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
