@@ -29,4 +29,25 @@ describe("Given the token auth middleware", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
+
+  describe("When it receives a request without an authorization Bearer method in the header", () => {
+    test("Then it should call the next function with and error status code 401 and message 'Missing bearer in Authorization header'", () => {
+      const mockedHeaderValue = "Header without Bearer";
+
+      const request: Partial<CustomAuthRequest> = {
+        header: jest.fn().mockReturnValue(mockedHeaderValue),
+      };
+      const expectedStatus = errors.unauthorized.statusCode;
+      const expectedError = new CustomError(
+        errors.unauthorized.authBearerMissing,
+        expectedStatus,
+        errors.unauthorized.authInvalidToken
+      );
+      jwt.verify = jest.fn().mockReturnValueOnce({});
+
+      auth(request as CustomAuthRequest, response as Response, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
 });
