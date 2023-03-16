@@ -9,6 +9,9 @@ const errors = {
     statusCode: 401,
     publicMessage: "Unauthorized: User or password not found.",
     wrongCredentialsMessage: "Unauthorized: Wrong credentials.",
+    authHeaderMissing: "Authorization header missing",
+    authBearerMissing: "Missing bearer in Authorization header",
+    authInvalidToken: "Invalid token",
   },
   forbidden: {
     message: "Forbidden: You're missing permission to execute this request.",

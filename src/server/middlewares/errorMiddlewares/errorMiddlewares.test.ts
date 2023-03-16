@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
-import CustomError from "../../CustomError/CustomError.js";
-import errors from "../constants/errors.js";
+import CustomError from "../../../CustomError/CustomError.js";
+import errors from "../../constants/errors.js";
 import { generalError, notFoundError } from "./errorMiddlewares.js";
 
 const response: Partial<Response> = {
