@@ -3,7 +3,7 @@ const endpoints = {
   users: "/users",
   login: "/login",
   root: "/",
-  delete: "games/delete",
+  delete: "/delete",
   idParam: "/:idGame",
 };
 
