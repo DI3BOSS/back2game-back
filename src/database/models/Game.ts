@@ -29,6 +29,9 @@ const gameSchema = new Schema({
   cover: {
     type: String,
   },
+  owner: {
+    type: String,
+  },
 });
 
 const Game = model(documentModelName, gameSchema, collectionName);

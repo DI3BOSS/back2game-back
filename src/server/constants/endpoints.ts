@@ -3,7 +3,8 @@ const endpoints = {
   users: "/users",
   login: "/login",
   root: "/",
-  delete: "/delete",
+  delete: "games/delete",
+  idParam: "/:idGame",
 };
 
 export default endpoints;
