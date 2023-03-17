@@ -4,7 +4,7 @@ import cors from "cors";
 import options from "./cors.js";
 import gamesRouter from "./routers/gamesRouter.js";
 import usersRouter from "./routers/usersRouter.js";
-import endpoints from "./constants/endpoint.js";
+import endpoints from "./constants/endpoints.js";
 import {
   generalError,
   notFoundError,

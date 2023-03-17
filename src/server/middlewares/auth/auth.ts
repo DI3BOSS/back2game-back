@@ -34,7 +34,7 @@ const auth = (
   } catch (error: unknown) {
     const tokenError = new CustomError(
       (error as Error).message,
-      401,
+      errors.unauthorized.statusCode,
       errors.unauthorized.authInvalidToken
     );
     next(tokenError);

@@ -4,6 +4,7 @@ const endpoints = {
   login: "/login",
   root: "/",
   delete: "/delete",
+  idParam: "/:idGame",
 };
 
 export default endpoints;
