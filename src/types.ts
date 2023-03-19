@@ -1,12 +1,13 @@
 import { type Request } from "express";
 
-export interface GameStructure {
+export interface GameStructure extends Request {
   title: string;
   platform: string;
   genre: string;
   description: string;
   price: string;
   cover: string;
+  owner: string;
 }
 
 export type GamesStructure = GameStructure[];
@@ -29,5 +30,9 @@ export type CustomRequest = Request<
 >;
 
 export interface CustomAuthRequest extends Request {
+  postedBy: string;
+}
+
+export interface CustomCreateGameAuthRequest extends GameStructure {
   postedBy: string;
 }
