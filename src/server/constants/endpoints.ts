@@ -4,6 +4,7 @@ const endpoints = {
   login: "/login",
   root: "/",
   delete: "/delete",
+  create: "/upload",
   idParam: "/:idGame",
 };
 
