@@ -1,7 +1,10 @@
 import { type NextFunction, type Request, type Response } from "express";
 import CustomError from "../../../CustomError/CustomError.js";
 import Game from "../../../database/models/Game.js";
-import { type CustomAuthRequest, CustomRequest } from "../../../types.js";
+import {
+  type CustomCreateGameAuthRequest,
+  type CustomAuthRequest,
+} from "../../../types.js";
 import errors from "../../constants/errors.js";
 import successes from "../../constants/successes.js";
 
@@ -41,6 +44,33 @@ export const deleteGame = async (
     }).exec();
 
     res.status(successes.ok.statusCode).json({ game });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createGame = async (
+  req: CustomAuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { title, platform, genre, description, price, cover } =
+      req.body as CustomCreateGameAuthRequest;
+
+    const game = await Game.create({
+      title,
+      platform,
+      genre,
+      description,
+      price,
+      cover,
+      owner: req.postedBy,
+    });
+
+    res
+      .status(successes.created.statusCode)
+      .json(`Game ${game.title} susccessfully ${successes.created.message}`);
   } catch (error) {
     next(error);
   }

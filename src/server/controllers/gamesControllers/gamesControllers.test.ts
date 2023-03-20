@@ -1,12 +1,33 @@
 import { type Response, type Request, type NextFunction } from "express";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from "mongoose";
 import CustomError from "../../../CustomError/CustomError.js";
+import connectToDatabase from "../../../database/connectToDataBase.js";
 import Game from "../../../database/models/Game.js";
-import { type CustomAuthRequest } from "../../../types.js";
+import {
+  type GamesStructure,
+  type CustomAuthRequest,
+  type CustomCreateGameAuthRequest,
+} from "../../../types.js";
 import errors from "../../constants/errors.js";
 import successes from "../../constants/successes.js";
-import { deleteGame, getGames } from "./gamesControllers.js";
+import { createGame, deleteGame, getGames } from "./gamesControllers.js";
 
-const mockedGames = [
+let mongoBbServer: MongoMemoryServer;
+
+beforeAll(async () => {
+  mongoBbServer = await MongoMemoryServer.create();
+  const mongoServerUrl = mongoBbServer.getUri();
+
+  await connectToDatabase(mongoServerUrl);
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+  await mongoBbServer.stop();
+});
+
+const mockedGames: GamesStructure = [
   {
     title: "Legend of Dragoon",
     platform: "PS5",
@@ -15,6 +36,7 @@ const mockedGames = [
     price: "9.99",
     cover: "legend_of_dragon.png",
     id: "1",
+    owner: "di3boss",
   },
   {
     title: "Gran Turismo 7",
@@ -24,6 +46,7 @@ const mockedGames = [
     price: "69.99",
     cover: "Gran_Turismo.jpg",
     id: "2",
+    owner: "di3boss",
   },
 ];
 
@@ -75,7 +98,7 @@ describe("Given the GET 'games' endpoint", () => {
 });
 
 describe("Given the DELETE 'game' endpoint", () => {
-  describe("When it receives a a request", () => {
+  describe("When it receives a request", () => {
     test("Then it should delete a game an give status code '200'", async () => {
       const request: Partial<CustomAuthRequest> = {
         params: { id: `${mockedGames[0].id}` },
@@ -130,6 +153,37 @@ describe("Given the DELETE 'game' endpoint", () => {
       );
 
       expect(next).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given the createGame controller", () => {
+  const expectResponse = `Game ${mockedGames[0].title} susccessfully ${successes.created.message}`;
+  const expectedCodeStatus = 201;
+
+  const response: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+  };
+  const request: Partial<Request> = {
+    body: mockedGames[0],
+  };
+
+  const next: NextFunction = jest.fn();
+  describe("When it receives a request", () => {
+    test("Then it should create a game with status code '201'", async () => {
+      Game.create = jest.fn().mockImplementationOnce(() => ({
+        exec: jest
+          .fn()
+          .mockResolvedValue(mockedGames[0] as CustomCreateGameAuthRequest),
+      }));
+
+      await createGame(
+        request as CustomAuthRequest,
+        response as Response,
+        next
+      );
+
+      expect(response.status).toHaveBeenCalledWith(expectedCodeStatus);
     });
   });
 });
