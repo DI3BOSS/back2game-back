@@ -55,7 +55,7 @@ export const createGame = async (
   next: NextFunction
 ) => {
   try {
-    const { title, platform, genre, description, price, cover, owner } =
+    const { title, platform, genre, description, price, cover } =
       req.body as CustomCreateGameAuthRequest;
 
     const game = await Game.create({
@@ -65,8 +65,7 @@ export const createGame = async (
       description,
       price,
       cover,
-      owner,
-      postedBy: req.postedBy,
+      owner: req.postedBy,
     });
 
     res

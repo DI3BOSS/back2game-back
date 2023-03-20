@@ -1,6 +1,7 @@
 import { type Request } from "express";
 
-export interface GameStructure extends Request {
+export interface GameStructure {
+  id: string;
   title: string;
   platform: string;
   genre: string;
@@ -28,6 +29,17 @@ export type CustomRequest = Request<
   Record<string, unknown>,
   UserCredentials
 >;
+
+export type CustomResponse = Request<
+  Record<string, unknown>,
+  Record<string, unknown>,
+  CustomResponseStructure
+>;
+
+export interface CustomResponseStructure {
+  status: number;
+  json: string;
+}
 
 export interface CustomAuthRequest extends Request {
   postedBy: string;
