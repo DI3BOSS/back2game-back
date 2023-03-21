@@ -12,7 +12,6 @@ const gameSchema = new Schema({
   platform: {
     type: String,
     required: true,
-    minLength: 8,
   },
   genre: {
     type: String,

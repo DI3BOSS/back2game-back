@@ -23,12 +23,12 @@ const auth = (
 
     const token = authorizationRequestHeader.replace(/^Bearer\s*/, "");
 
-    const { sub: postedBy } = jwt.verify(
+    const { sub: username } = jwt.verify(
       token,
       process.env.JWT_SECRET!
     ) as CustomJwtPayload;
 
-    request.postedBy = postedBy;
+    request.postedBy = username;
 
     next();
   } catch (error: unknown) {
