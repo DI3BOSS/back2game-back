@@ -11,7 +11,12 @@ import {
 } from "../../../types.js";
 import errors from "../../constants/errors.js";
 import successes from "../../constants/successes.js";
-import { createGame, deleteGame, getGames } from "./gamesControllers.js";
+import {
+  createGame,
+  deleteGame,
+  getGameById,
+  getGames,
+} from "./gamesControllers.js";
 
 let mongoBbServer: MongoMemoryServer;
 
@@ -158,7 +163,6 @@ describe("Given the DELETE 'game' endpoint", () => {
 });
 
 describe("Given the createGame controller", () => {
-  const expectResponse = `Game ${mockedGames[0].title} susccessfully ${successes.created.message}`;
   const expectedCodeStatus = 201;
 
   const response: Partial<Response> = {
@@ -184,6 +188,52 @@ describe("Given the createGame controller", () => {
       );
 
       expect(response.status).toHaveBeenCalledWith(expectedCodeStatus);
+    });
+  });
+});
+
+describe("Given the getGameById controller", () => {
+  describe("When it receives a request with an id requesting a game", () => {
+    test("Then it should call its status method with status code 200", async () => {
+      const expectedCodeStatus = 200;
+      const request: Partial<Request> = {};
+
+      const response: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnValue({}),
+      };
+
+      const next = jest.fn();
+
+      request.params = { _id: mockedGames[0].id };
+
+      Game.findOne = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockReturnValue({ _id: mockedGames[0].id }),
+      }));
+
+      await getGameById(request as Request, response as Response, next);
+
+      expect(response.status).toHaveBeenCalledWith(expectedCodeStatus);
+    });
+  });
+
+  describe("When it receives a request with a wrong game id", () => {
+    test("Then it should call the next function with an error", async () => {
+      const request: Partial<Request> = {};
+      request.params = {};
+
+      const response: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnValue({}),
+      };
+
+      const next = jest.fn();
+
+      Game.findOne = jest.fn().mockReturnValue(undefined);
+
+      await getGameById(request as Request, response as Response, next);
+
+      expect(next).toHaveBeenCalled();
     });
   });
 });
