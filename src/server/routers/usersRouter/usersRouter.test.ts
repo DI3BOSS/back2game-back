@@ -4,12 +4,13 @@ import { type NextFunction, type Request, type Response } from "express";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import User from "../../database/models/User.js";
-import connectToDatabase from "../../database/connectToDataBase.js";
-import { app } from "..";
+
 import { type errors, ValidationError } from "express-validation";
-import type CustomError from "../../CustomError/CustomError.js";
-import { generalError } from "../middlewares/errorMiddlewares/errorMiddlewares.js";
+import connectToDatabase from "../../../database/connectToDataBase";
+import User from "../../../database/models/User";
+import { app } from "../..";
+import { generalError } from "../../middlewares/errorMiddlewares/errorMiddlewares";
+import type CustomError from "../../../CustomError/CustomError";
 
 let mongoBbServer: MongoMemoryServer;
 

@@ -75,3 +75,25 @@ export const createGame = async (
     next(error);
   }
 };
+
+export const getGameById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+
+  try {
+    const game = await Game.findById({ _id: id }).exec();
+
+    res.status(successes.ok.statusCode).json({ game });
+  } catch (error) {
+    next(
+      new CustomError(
+        errors.unauthorized.message,
+        errors.unauthorized.statusCode,
+        errors.unauthorized.publicMessage
+      )
+    );
+  }
+};

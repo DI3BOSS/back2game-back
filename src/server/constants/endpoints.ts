@@ -6,6 +6,8 @@ const endpoints = {
   delete: "/delete",
   create: "/upload",
   idParam: "/:idGame",
+  getById: "/gameById",
+  gameId: "/:id",
 };
 
 export default endpoints;

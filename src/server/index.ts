@@ -2,13 +2,13 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import options from "./cors.js";
-import gamesRouter from "./routers/gamesRouter.js";
-import usersRouter from "./routers/usersRouter.js";
+import usersRouter from "./routers/usersRouter/usersRouter.js";
 import endpoints from "./constants/endpoints.js";
 import {
   generalError,
   notFoundError,
 } from "./middlewares/errorMiddlewares/errorMiddlewares.js";
+import gamesRouter from "./routers/gamesRouter/gamesRouter.js";
 
 export const app = express();
 
