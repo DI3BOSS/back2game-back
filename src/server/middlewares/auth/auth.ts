@@ -23,7 +23,7 @@ const auth = (
 
     const token = authorizationRequestHeader.replace(/^Bearer\s*/, "");
 
-    const { sub: postedBy, username } = jwt.verify(
+    const { sub: username } = jwt.verify(
       token,
       process.env.JWT_SECRET!
     ) as CustomJwtPayload;
