@@ -61,7 +61,7 @@ describe("Given the token auth middleware", () => {
         .fn()
         .mockReturnValueOnce(mockedHeaderValueWithBearer);
       const ownedBy = new mongoose.Types.ObjectId();
-      jwt.verify = jest.fn().mockReturnValueOnce({ sub: username });
+      jwt.verify = jest.fn().mockReturnValueOnce({ username });
 
       auth(request as CustomAuthRequest, response as Response, next);
 
