@@ -40,7 +40,7 @@ export const deleteGame = async (
   try {
     const game = await Game.findByIdAndDelete({
       _id: idGame,
-      postedBy: req.postedBy,
+      ownedBy: req.ownedBy,
     }).exec();
 
     res.status(successes.ok.statusCode).json({ game });
@@ -65,7 +65,7 @@ export const createGame = async (
       description,
       price,
       cover,
-      owner: req.postedBy,
+      owner: req.ownedBy,
     });
 
     res

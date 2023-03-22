@@ -42,9 +42,9 @@ export interface CustomResponseStructure {
 }
 
 export interface CustomAuthRequest extends Request {
-  postedBy: string;
+  ownedBy: string;
 }
 
 export interface CustomCreateGameAuthRequest extends GameStructure {
-  postedBy: string;
+  ownedBy: string;
 }
