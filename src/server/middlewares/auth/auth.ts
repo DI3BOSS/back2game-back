@@ -28,7 +28,7 @@ const auth = (
       process.env.JWT_SECRET!
     ) as CustomJwtPayload;
 
-    request.postedBy = username;
+    request.ownedBy = username;
 
     next();
   } catch (error: unknown) {
