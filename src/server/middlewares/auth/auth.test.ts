@@ -52,7 +52,7 @@ describe("Given the token auth middleware", () => {
   });
 
   describe("When it receives a request with an authorization header 'Bearer Leg3NeD0FDRA60ONRokC$'", () => {
-    test("Then it should add the postedBy property and the token to the request and call the next function", () => {
+    test("Then it should add the ownedBy property and the token to the request and call the next function", () => {
       const mockedHeaderValueWithBearer = "Bearer Leg3NeD0FDRA60ONRokC$";
       const username = "di3boss";
 
@@ -60,13 +60,13 @@ describe("Given the token auth middleware", () => {
       request.header = jest
         .fn()
         .mockReturnValueOnce(mockedHeaderValueWithBearer);
-      const postedBy = new mongoose.Types.ObjectId();
+      const ownedBy = new mongoose.Types.ObjectId();
       jwt.verify = jest.fn().mockReturnValueOnce({ sub: username });
 
       auth(request as CustomAuthRequest, response as Response, next);
 
       expect(next).toHaveBeenCalled();
-      expect(request).toHaveProperty("postedBy", username);
+      expect(request).toHaveProperty("ownedBy", username);
     });
   });
 
@@ -74,8 +74,8 @@ describe("Given the token auth middleware", () => {
     test("Then it should add the userId property and the token to the request and call the next function", () => {
       const request: Partial<Request> = {};
 
-      const postedBy = new mongoose.Types.ObjectId();
-      jwt.verify = jest.fn().mockReturnValueOnce({ sub: postedBy });
+      const ownedBy = new mongoose.Types.ObjectId();
+      jwt.verify = jest.fn().mockReturnValueOnce({ sub: ownedBy });
 
       auth(request as CustomAuthRequest, response as Response, next);
 
